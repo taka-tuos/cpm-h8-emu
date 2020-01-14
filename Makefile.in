@@ -1,0 +1,36 @@
+MAKE	= make -r
+CC		= $(PREFIX)gcc
+AS		= $(PREFIX)as
+OBJCOPY	= $(PREFIX)objcopy
+RM		= rm
+CP		= cp
+
+# default
+
+default :
+	$(MAKE) $(TARGET)
+
+# rules
+
+$(TARGET) : $(OBJ) Makefile Makefile.in
+	$(CC) $(LDFLAGS) $(OBJ) $(LIBS) -o $(TARGET)
+
+# normal rules
+
+%.o : %.c Makefile Makefile.in
+	$(CC) -c $(CFLAGS) -o $*.o $*.c
+	
+%.o : %.s Makefile Makefile.in
+	$(AS) -c $(ASFLAGS) -o $*.o $*.s
+
+# commands
+
+clean :
+	-$(RM) -f $(OBJ)
+
+clean-full :
+	$(MAKE) clean
+	-$(RM) $(TARGET)
+
+git :
+	$(MAKE) clean-full
