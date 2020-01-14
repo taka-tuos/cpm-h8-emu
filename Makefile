@@ -6,6 +6,6 @@ PREFIX	=
 CFLAGS	:= -O2 -g -std=gnu99
 ASFLAGS	:= 
 LDFLAGS	:= 
-LIBS	:= 
+LIBS	:= -lm -lc
 
 include Makefile.in

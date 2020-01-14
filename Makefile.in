@@ -1,7 +1,7 @@
 MAKE	= make -r
 CC		= $(PREFIX)gcc
 AS		= $(PREFIX)as
-OBJCOPY	= $(PREFIX)objcopy
+LD		= $(PREFIX)ld
 RM		= rm
 CP		= cp
 
