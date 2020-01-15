@@ -19,7 +19,6 @@ unsigned char z80_rd, z80_wr;
 /* enviroments depend                                      */
 /*---------------------------------------------------------*/
 
-extern BYTE *memory;
 extern int eeprom_siz;
 extern BYTE *eeprom;
 
@@ -33,6 +32,9 @@ int cpm_disk_write(BYTE pdrv, const BYTE* buff, DWORD sector, int count);
 BYTE cpm_serial_read();
 void cpm_serial_write(BYTE d);
 int cpm_serial_available();
+
+extern BYTE cpm_memory_read(WORD addr);
+extern void cpm_memory_write(WORD addr, BYTE data);
 
 /*---------------------------------------------------------*/
 /* global variables                                        */
@@ -67,14 +69,15 @@ volatile int St;
 
 void write_byte(WORD adr, BYTE dat)
 {
-	*((BYTE *)memory + adr) = dat;
+	//*((BYTE *)memory + adr) = dat;
+	cpm_memory_write(adr, dat);
 	return;
 }
 
 
 BYTE read_byte(WORD adr)
 {
-	return *((BYTE *)memory + adr);
+	return cpm_memory_read(adr);//*((BYTE *)memory + adr);
 }
 
 

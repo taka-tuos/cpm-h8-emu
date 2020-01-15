@@ -94,32 +94,33 @@ extern "C" {
 extern unsigned char ioreq_proc(BYTE port_adr, BYTE port_data);
 extern unsigned char z80_rd, z80_wr;
 
-extern BYTE *memory;
+extern BYTE cpm_memory_read(WORD addr);
+extern void cpm_memory_write(WORD addr, BYTE data);
 
 #define Z80_READ_BYTE(address, x)                                       \
 {                                                                       \
-        (x) = memory[(address) & 0xffff];	\
+        (x) = cpm_memory_read((address) & 0xffff);	\
 }
 
 #define Z80_FETCH_BYTE(address, x)		Z80_READ_BYTE((address), (x))
 
 #define Z80_READ_WORD(address, x)                                       \
 {                                                                       \
-        (x) = memory[(address) & 0xffff]                                \
-                | (memory[((address) + 1) & 0xffff] << 8);              \
+        (x) = cpm_memory_read((address) & 0xffff)                                \
+                | (cpm_memory_read(((address) + 1) & 0xffff) << 8);              \
 }
 
 #define Z80_FETCH_WORD(address, x)		Z80_READ_WORD((address), (x))
 
 #define Z80_WRITE_BYTE(address, x)                                      \
 {                                                                       \
-        memory[(address) & 0xffff] = (x);	\
+        cpm_memory_write((address) & 0xffff, (x));	\
 }
 
 #define Z80_WRITE_WORD(address, x)                                      \
 {                                                                       \
-        memory[(address) & 0xffff] = (x); 				\
-        memory[((address) + 1) & 0xffff] = (x) >> 8; 			\
+        cpm_memory_write((address) & 0xffff, (x)); 				\
+        cpm_memory_write(((address) + 1) & 0xffff, (x) >> 8); 			\
 }
 
 #define Z80_READ_WORD_INTERRUPT(address, x)	Z80_READ_WORD((address), (x))
